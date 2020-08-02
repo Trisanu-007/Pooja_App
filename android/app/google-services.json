@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1013240974392",
+    "firebase_url": "https://apdutta-6c2a8.firebaseio.com",
+    "project_id": "apdutta-6c2a8",
+    "storage_bucket": "apdutta-6c2a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1013240974392:android:8b6548aab06b9ca96deacd",
+        "android_client_info": {
+          "package_name": "com.example.durga_pooja"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1013240974392-gc3rcbe4ull1s62bo4buhklptdh4ghpj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQusmOZqIMZ6nXk_Y-aIDLai5t2RBI1JA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1013240974392-gc3rcbe4ull1s62bo4buhklptdh4ghpj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
