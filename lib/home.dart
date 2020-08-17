@@ -10,62 +10,59 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Widget _customDrawer(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        children: [
-          DrawerHeader(
-            child: Center(
-              child: Text(
-                "Hi",
-                style: TextStyle(color: Colors.white, fontSize: 40.0),
-              ),
-            ),
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
-          ),
-          ListTile(
-            title: Text("My profile"),
-            trailing: Icon(Icons.account_circle),
-            onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => ProfilePage()));
-            },
-          ),
-          ListTile(
-            title: Text("My Coupons"),
-            trailing: Icon(Icons.playlist_add_check),
-            onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => PastTokens()));
-            },
-          ),
-          ListTile(
-            title: Text("Buy Coupons"),
-            trailing: Icon(Icons.playlist_add),
-            onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => HomeBuyTokens()));
-            },
-          ),
-          ListTile(
-            title: Text("Logout"),
-            trailing: Icon(Icons.keyboard_tab),
-            onTap: () async {
-              await Authenticate().signOut();
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        endDrawer: _customDrawer(context),
+        endDrawer: //_customDrawer(context),
+            Drawer(
+          child: ListView(
+            children: [
+              DrawerHeader(
+                child: Center(
+                  child: Text(
+                    "Hi",
+                    style: TextStyle(color: Colors.white, fontSize: 40.0),
+                  ),
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+              ),
+              ListTile(
+                title: Text("My profile"),
+                trailing: Icon(Icons.account_circle),
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => ProfilePage()));
+                },
+              ),
+              ListTile(
+                title: Text("My Coupons"),
+                trailing: Icon(Icons.playlist_add_check),
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => PastTokens()));
+                },
+              ),
+              ListTile(
+                title: Text("Buy Coupons"),
+                trailing: Icon(Icons.playlist_add),
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => HomeBuyTokens()));
+                },
+              ),
+              ListTile(
+                title: Text("Logout"),
+                trailing: Icon(Icons.keyboard_tab),
+                onTap: () async {
+                  await Authenticate().signOut();
+                },
+              ),
+            ],
+          ),
+        ),
         appBar: AppBar(
           title: Text("Home Page"),
         ),
@@ -86,6 +83,19 @@ class _HomePageState extends State<HomePage> {
             Image(
               image: AssetImage("assets/ehcbc.jpeg"),
               width: MediaQuery.of(context).size.width,
+            ),
+            AlertDialog(
+              title: Text(
+                  "Please update your User data in the \"My Profile\" section before making any purchases"),
+              actions: [
+                RaisedButton(
+                    child: Text("My Profile"),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ProfilePage(),
+                      ));
+                    })
+              ],
             ),
           ],
         ),

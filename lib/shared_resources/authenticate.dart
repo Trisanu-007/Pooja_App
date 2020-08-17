@@ -1,3 +1,4 @@
+import 'package:durga_pooja/database_services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 
@@ -21,6 +22,7 @@ class Authenticate{
       AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email.trim(), password: password.trim());
       FirebaseUser user = result.user;
+      await DatabaseService(uid: user.uid).createUserDataInitial(0);
       return _convertToCurrentUser(user);
     } on PlatformException catch (error){
       print (error);

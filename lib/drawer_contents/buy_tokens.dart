@@ -44,6 +44,7 @@ class _BuyTokensState extends State<BuyTokens> {
   @override
   Widget build(BuildContext context) {
     var mealsList = Provider.of<MealCardList>(context);
+    print(mealsList);
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -119,7 +120,7 @@ class _BuyTokensState extends State<BuyTokens> {
                     day: "Shashti - 22 Oct",
                     if_veg: false,
                     if_guest: false,
-                    count: 0,
+                    count: 1,
                     isBreakfast: false,
                     isLunch: false,
                     isDinner: false,
