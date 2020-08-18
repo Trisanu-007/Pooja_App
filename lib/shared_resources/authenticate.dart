@@ -1,66 +1,69 @@
 import 'package:durga_pooja/database_services/database.dart';
+import 'package:durga_pooja/database_services/user_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 
-class CurrentUser{
+class CurrentUser {
   final String uid;
-CurrentUser({this.uid});
+  CurrentUser({this.uid});
 }
 
-
-class Authenticate{
+class Authenticate {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   //Converting to user class
-  CurrentUser _convertToCurrentUser(FirebaseUser user){
-    return user !=null ? CurrentUser(uid: user.uid) : null;
+  CurrentUser _convertToCurrentUser(FirebaseUser user) {
+    return user != null ? CurrentUser(uid: user.uid) : null;
   }
 
   //For registering the user into the app
-  Future register(String password,String email) async {
+  Future register(String password, String email) async {
     try {
       AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email.trim(), password: password.trim());
       FirebaseUser user = result.user;
       await DatabaseService(uid: user.uid).createUserDataInitial(0);
+      await UserDatabase(uid: user.uid).createUserProfile("Full Name here",
+          "Enter flat number here", 0, 0, user.email, "owner/");
       return _convertToCurrentUser(user);
-    } on PlatformException catch (error){
-      print (error);
+    } on PlatformException catch (error) {
+      print(error);
       return error.toString();
-    }catch(error){
-      print (error);
+    } catch (error) {
+      print(error);
       return error.toString();
     }
   }
 
   //For signing into the app
-  Future signIn(String password,String email) async{
-    try{
-      AuthResult result = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email.trim(), password: password.trim());
+  Future signIn(String password, String email) async {
+    try {
+      AuthResult result = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: email.trim(), password: password.trim());
       FirebaseUser user = result.user;
       print(user);
       return _convertToCurrentUser(user);
-    }on PlatformException catch (error){
-      print (error);
+    } on PlatformException catch (error) {
+      print(error);
       return error.toString();
-    }catch(error){
-      print (error);
+    } catch (error) {
+      print(error);
       return error.toString();
     }
   }
 
   //For signing out
   Future signOut() async {
-    try{
+    try {
       return await _firebaseAuth.signOut();
-    }catch(error){
+    } catch (error) {
       print(error.toString());
       return null;
     }
   }
 
-  Stream<CurrentUser> get user{
+  Stream<CurrentUser> get user {
     return _firebaseAuth.onAuthStateChanged.map(_convertToCurrentUser);
   }
-
 }
