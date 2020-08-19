@@ -52,7 +52,7 @@ class _CheckOutState extends State<CheckOut> {
 
   void openCheckout() async {
     var options = {
-      "key": "ENTER_KEY_HERE",
+      "key": "rzp_test_LUz3nvkwacrQ9K",
       "amount": _totalCost * 100,
       "name": "Payment for the meals",
       "description": "Test payment",

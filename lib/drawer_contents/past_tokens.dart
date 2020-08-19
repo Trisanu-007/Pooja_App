@@ -20,6 +20,7 @@ class _PastTokensState extends State<PastTokens> {
     final user = Provider.of<CurrentUser>(context);
     return StreamBuilder<List<CouponData>>(
         stream: DatabaseService(uid: user.uid).couponData ?? "0",
+        // ignore: missing_return
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting)
             return Loading();

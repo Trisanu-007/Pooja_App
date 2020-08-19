@@ -63,6 +63,28 @@ class Authenticate {
     }
   }
 
+  Future updateUserEmail(
+      String newEmail, String oldEmail, String password) async {
+    try {
+      print(newEmail);
+      return _firebaseAuth
+          .signInWithEmailAndPassword(email: oldEmail, password: password)
+          .then(
+            (user) => user.user.updateEmail(newEmail),
+          );
+    } on PlatformException catch (err) {
+      return err.toString();
+    }
+  }
+
+  Future resetUserPassword(String email) async {
+    try {
+      return _firebaseAuth.sendPasswordResetEmail(email: email);
+    } catch (err) {
+      return "Fault";
+    }
+  }
+
   Stream<CurrentUser> get user {
     return _firebaseAuth.onAuthStateChanged.map(_convertToCurrentUser);
   }

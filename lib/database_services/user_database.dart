@@ -90,6 +90,17 @@ class UserDatabase {
     }
   }
 
+  Future updateUserEmailId(String newEmailId) async {
+    try {
+      return await userDataCollection.document(uid).updateData({
+        "email_id": newEmailId,
+      });
+    } catch (e) {
+      print("error");
+      return e;
+    }
+  }
+
   UserProfile convertToUserProfile(DocumentSnapshot snapshot) {
     return snapshot != null
         ? UserProfile(
