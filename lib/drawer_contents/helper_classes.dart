@@ -22,6 +22,7 @@ class MealCard {
         "count": count,
         "is_veg": if_veg ? "NON-VEG" : "VEG",
         "is_guest": if_guest ? "GUEST" : "RESIDENT",
+        "time": isBreakfast ? "Breakfast" : isLunch ? "Lunch" : "Dinner",
       };
 }
 
@@ -55,13 +56,19 @@ class MealCardList extends ChangeNotifier {
 
   void changeBreakFastDetails(int index) {
     mealCards[index].isBreakfast = !mealCards[index].isBreakfast;
+    mealCards[index].isLunch = false;
+    mealCards[index].isDinner = false;
   }
 
   void changeLunchDetails(int index) {
+    mealCards[index].isBreakfast = false;
     mealCards[index].isLunch = !mealCards[index].isLunch;
+    mealCards[index].isDinner = false;
   }
 
   void changeDinnerDetails(int index) {
+    mealCards[index].isBreakfast = false;
+    mealCards[index].isLunch = false;
     mealCards[index].isDinner = !mealCards[index].isDinner;
   }
 }

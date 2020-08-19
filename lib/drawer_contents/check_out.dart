@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:durga_pooja/database_services/database.dart';
+import 'package:durga_pooja/database_services/user_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -15,8 +16,11 @@ class CheckOut extends StatefulWidget {
 class _CheckOutState extends State<CheckOut> {
   var _totalMeals = 0;
   var _totalCost = 0;
+  String email;
+  String mobileNum;
   Razorpay _razorpay;
   Firestore firestoreInstance;
+  UserProfile userProfile = new UserProfile();
 
   @override
   void initState() {
@@ -38,6 +42,8 @@ class _CheckOutState extends State<CheckOut> {
     setState(() {
       _totalMeals = _tcoupons;
       _totalCost = cost;
+      email = userProfile.email_id;
+      mobileNum = userProfile.mobile_num.toString();
     });
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
@@ -56,7 +62,7 @@ class _CheckOutState extends State<CheckOut> {
       "amount": _totalCost * 100,
       "name": "Payment for the meals",
       "description": "Test payment",
-      "prefill": {"contact": '', "email": ''},
+      "prefill": {"contact": mobileNum ?? '', "email": email ?? ''},
       "external": {
         "wallets": ["paytm"],
       },
@@ -152,7 +158,9 @@ class _CheckOutState extends State<CheckOut> {
                 Text("S.no."),
                 Text("Day"),
                 Text("Veg/Non-Veg"),
+                Text("Time"),
                 Text("Count"),
+
                 //Text("Cost"),
               ],
             ),
@@ -171,6 +179,11 @@ class _CheckOutState extends State<CheckOut> {
                       !widget.mealsList.getMealCard()[index].if_veg
                           ? Text("VEG")
                           : Text("NON-VEG"),
+                      widget.mealsList.getMealCard()[index].isBreakfast
+                          ? Text("B")
+                          : widget.mealsList.getMealCard()[index].isLunch
+                              ? Text("L")
+                              : Text("D"),
                       Text("${widget.mealsList.getMealCard()[index].count}"),
                       //Text("Rs. 50"), // TODO: Change the cost here
                     ],

@@ -24,7 +24,7 @@ class Authenticate {
       FirebaseUser user = result.user;
       await DatabaseService(uid: user.uid).createUserDataInitial(0);
       await UserDatabase(uid: user.uid).createUserProfile("Full Name here",
-          "Enter flat number here", 0, 0, user.email, "owner/");
+          "Enter flat number here", 0, 0, user.email, "owner/tenant");
       return _convertToCurrentUser(user);
     } on PlatformException catch (error) {
       print(error);

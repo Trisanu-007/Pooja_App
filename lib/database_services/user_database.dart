@@ -31,7 +31,7 @@ class UserDatabase {
       "flatnumber": flatNumber,
       "mobile_num": mobileNum,
       "email_id": emailId,
-      "type": type, //TODO: Find the option and change here
+      "type": type,
     });
   }
 

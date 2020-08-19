@@ -45,7 +45,7 @@ class DatabaseService {
     }, merge: true).then((_) => print("-----Record success-------"));
 
     await userCollection.document(uid).updateData({
-      "current_no_trans": len + 1,
+      "current_no_trans": len,
     });
     //TODO: Find a way to choose the day
   }

@@ -44,12 +44,18 @@ class _BuyTokensState extends State<BuyTokens> {
   @override
   Widget build(BuildContext context) {
     var mealsList = Provider.of<MealCardList>(context);
-    print(mealsList);
+    //print(mealsList);
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.shopping_cart),
+          RaisedButton(
+            color: Colors.amber,
+            child: Row(
+              children: [
+                Text("Check out"),
+                Icon(Icons.shopping_cart),
+              ],
+            ),
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => CheckOut(mealsList: mealsList))),
           ),
@@ -64,90 +70,107 @@ class _BuyTokensState extends State<BuyTokens> {
           "Buy Tokens",
         ),
       ),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 20.0,
-            ),
-            Text(
-              "Choose Event",
-              style: TextStyle(fontSize: 20.0),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: DropdownButtonFormField(
-                autovalidate: true,
-                validator: (val) {
-                  String ans;
-                  if (val != null && val.isEmpty) {
-                    ans = "Please type in your email";
+      body: Container(
+        color: Colors.amber[100],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 20.0,
+              ),
+              Text(
+                "Choose Event",
+                style: TextStyle(fontSize: 20.0),
+              ),
+              Container(
+                padding: const EdgeInsets.all(10.0),
+                child: DropdownButtonFormField(
+                  focusColor: Colors.white,
+                  autovalidate: true,
+                  validator: (val) {
+                    String ans;
+                    if (val != null && val.isEmpty) {
+                      ans = "Please type in your email";
+                    }
+                    return ans;
+                  },
+                  items: events.map((event) {
+                    return DropdownMenuItem(
+                      value: event,
+                      child: Text("$event"),
+                    );
+                  }).toList(),
+                  onChanged: (val) {
+                    setState(() {
+                      _currentEvent = val;
+                    });
+                  },
+                  onSaved: (val) {
+                    setState(() {
+                      _currentEvent = val;
+                    });
+                  },
+                ),
+              ),
+              Text(
+                error,
+                style: TextStyle(color: Colors.red),
+              ),
+              RaisedButton(
+                color: Colors.greenAccent,
+                child: Text(
+                  "Add Meals",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  final formState = _formKey.currentState;
+                  if (formState.validate()) {
+                    formState.save();
+                    Provider.of<MealCardList>(context, listen: false)
+                        .addMealCard(MealCard(
+                      day: "Shashti - 22 Oct",
+                      if_veg: false,
+                      if_guest: false,
+                      count: 1,
+                      isBreakfast: false,
+                      isLunch: false,
+                      isDinner: false,
+                    ));
+                  } else {
+                    setState(() {
+                      error = "Please choose a field above";
+                    });
                   }
-                  return ans;
-                },
-                items: events.map((event) {
-                  return DropdownMenuItem(
-                    value: event,
-                    child: Text("$event"),
-                  );
-                }).toList(),
-                onChanged: (val) {
-                  setState(() {
-                    _currentEvent = val;
-                  });
-                },
-                onSaved: (val) {
-                  setState(() {
-                    _currentEvent = val;
-                  });
                 },
               ),
-            ),
-            Text(
-              error,
-              style: TextStyle(color: Colors.red),
-            ),
-            RaisedButton(
-              color: Colors.greenAccent,
-              child: Text("Add Meals",style: TextStyle(color: Colors.white),),
-              onPressed: () {
-                final formState = _formKey.currentState;
-                if (formState.validate()) {
-                  formState.save();
-                  Provider.of<MealCardList>(context, listen: false)
-                      .addMealCard(MealCard(
-                    day: "Shashti - 22 Oct",
-                    if_veg: false,
-                    if_guest: false,
-                    count: 1,
-                    isBreakfast: false,
-                    isLunch: false,
-                    isDinner: false,
-                  ));
-                } else {
-                  setState(() {
-                    error = "Please choose a field above";
-                  });
-                }
-              },
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text("Total coupons:",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20.0),),
-                Text("${mealsList.getMealCard().length}",style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold,fontSize: 20.0),),
-              ],
-            ),
-            Flexible(
-              child: ListView.builder(
-                itemCount: mealsList.getMealCard().length,
-                itemBuilder: (context, index) {
-                  return BuildMeals(index: index, key: ObjectKey(index));
-                },
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "Total coupons:",
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+                  ),
+                  Text(
+                    "${mealsList.getMealCard().length}",
+                    style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0),
+                  ),
+                ],
               ),
-            ),
-          ],
+              Flexible(
+                child: ListView.builder(
+                  itemCount: mealsList.getMealCard().length,
+                  itemBuilder: (context, index) {
+                    return BuildMeals(index: index, key: ObjectKey(index));
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -215,7 +238,10 @@ class _BuildMealsState extends State<BuildMeals> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: <Widget>[
-                Text("Choose a day:"),
+                Text(
+                  "Choose a day:",
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                ),
                 DropdownButtonFormField(
                   value: mealList.getMealCard()[widget.index].day,
                   items: days.map((day) {
@@ -230,18 +256,34 @@ class _BuildMealsState extends State<BuildMeals> {
                   },
                 ),
                 SizedBox(
-                  width: 10.0,
+                  width: 15.0,
                 ),
-                Text("Meal Time"),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Meal Time",
+                    style: TextStyle(fontSize: 18.0),
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     RaisedButton(
-                      color: mealList.getMealCard()[widget.index].isBreakfast ? Colors.purple : Colors.grey[300],
-                      child: Text("Breakfast",style: TextStyle(color: mealList.getMealCard()[widget.index].isBreakfast ? Colors.white: Colors.black),),
-                      onPressed: (){
+                      color: mealList.getMealCard()[widget.index].isBreakfast
+                          ? Colors.purple
+                          : Colors.grey[300],
+                      child: Text(
+                        "Breakfast",
+                        style: TextStyle(
+                            color:
+                                mealList.getMealCard()[widget.index].isBreakfast
+                                    ? Colors.white
+                                    : Colors.black),
+                      ),
+                      onPressed: () {
                         setState(() {
-                          Provider.of<MealCardList>(context,listen: false).changeBreakFastDetails(widget.index);
+                          Provider.of<MealCardList>(context, listen: false)
+                              .changeBreakFastDetails(widget.index);
                         });
                       },
                     ),
@@ -249,11 +291,20 @@ class _BuildMealsState extends State<BuildMeals> {
                       width: 10.0,
                     ),
                     RaisedButton(
-                      color: mealList.getMealCard()[widget.index].isLunch ? Colors.purple : Colors.grey[300],
-                      child: Text("Lunch",style: TextStyle(color: mealList.getMealCard()[widget.index].isLunch ? Colors.white: Colors.black),),
-                      onPressed: (){
+                      color: mealList.getMealCard()[widget.index].isLunch
+                          ? Colors.purple
+                          : Colors.grey[300],
+                      child: Text(
+                        "Lunch",
+                        style: TextStyle(
+                            color: mealList.getMealCard()[widget.index].isLunch
+                                ? Colors.white
+                                : Colors.black),
+                      ),
+                      onPressed: () {
                         setState(() {
-                          Provider.of<MealCardList>(context,listen: false).changeLunchDetails(widget.index);
+                          Provider.of<MealCardList>(context, listen: false)
+                              .changeLunchDetails(widget.index);
                         });
                       },
                     ),
@@ -261,11 +312,20 @@ class _BuildMealsState extends State<BuildMeals> {
                       width: 10.0,
                     ),
                     RaisedButton(
-                      color: mealList.getMealCard()[widget.index].isDinner ? Colors.purple : Colors.grey[300],
-                      child: Text("Breakfast",style: TextStyle(color: mealList.getMealCard()[widget.index].isDinner ? Colors.white: Colors.black),),
-                      onPressed: (){
+                      color: mealList.getMealCard()[widget.index].isDinner
+                          ? Colors.purple
+                          : Colors.grey[300],
+                      child: Text(
+                        "Dinner",
+                        style: TextStyle(
+                            color: mealList.getMealCard()[widget.index].isDinner
+                                ? Colors.white
+                                : Colors.black),
+                      ),
+                      onPressed: () {
                         setState(() {
-                          Provider.of<MealCardList>(context,listen: false).changeDinnerDetails(widget.index);
+                          Provider.of<MealCardList>(context, listen: false)
+                              .changeDinnerDetails(widget.index);
                         });
                       },
                     ),
