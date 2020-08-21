@@ -47,13 +47,13 @@ class DatabaseService {
     await userCollection.document(uid).updateData({
       "current_no_trans": len,
     });
-    //TODO: Find a way to choose the day
   }
 
   List<CouponData> convertToCouponClass(QuerySnapshot snapshots) {
     return snapshots.documents.map((value) {
       return CouponData(
         payment_id: value.documentID,
+        total_cost_paid: value.data["total_cost_paid"],
         transaction_time: value.data["transaction-time"],
         couponAsJson: jsonEncode(value.data["coupons"]),
       );

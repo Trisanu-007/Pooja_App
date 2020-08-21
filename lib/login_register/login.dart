@@ -22,10 +22,10 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Colors.lightBlue[200],
       ),
       body: Container(
-        color: Colors.lightBlue,
+        color: Colors.lightBlue[200],
         padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
         child: Form(
           key: _formKey,
@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               Center(
                 child: Text(
-                  "Lorem",
+                  "Pooja",
                   style: TextStyle(
                     fontSize: 55.0,
                     fontWeight: FontWeight.bold,
@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Center(
                 child: Text(
-                  "Ipsum",
+                  "App",
                   style: TextStyle(
                     fontSize: 55.0,
                     fontWeight: FontWeight.bold,
@@ -133,9 +133,11 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: 12.0,
               ),
-              Text(
-                error,
-                style: TextStyle(color: Colors.red[800]),
+              Container(
+                child: Text(
+                  error,
+                  style: TextStyle(color: Colors.red[800]),
+                ),
               ),
               SizedBox(
                 height: 10.0,

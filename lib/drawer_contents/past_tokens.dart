@@ -99,6 +99,26 @@ class _PastTokensState extends State<PastTokens> {
                               ),
                             ],
                           ),
+                          Row(
+                            children: [
+                              Text(
+                                "Time of payment : ",
+                                style: GoogleFonts.lato(
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                "Rs. ${couponData[index].total_cost_paid}",
+                                style: GoogleFonts.lato(
+                                  textStyle: TextStyle(
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                           RaisedButton(
                             child: Text("Check Details"),
                             color: Colors.amber,
