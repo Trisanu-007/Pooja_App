@@ -13,6 +13,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: '/',
+      routes: {
+        //'/': (context) => HomePage(),
+        '/buyCoupons': (context) => HomeBuyTokens(),
+      },
       home: Scaffold(
         endDrawer: //_customDrawer(context),
             Drawer(
@@ -33,8 +38,7 @@ class _HomePageState extends State<HomePage> {
                 title: Text("My profile"),
                 trailing: Icon(Icons.account_circle),
                 onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => ProfilePage()));
+                  Navigator.pushNamed(context, "buyCoupons");
                 },
               ),
               ListTile(

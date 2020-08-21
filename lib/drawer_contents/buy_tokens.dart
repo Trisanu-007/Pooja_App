@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:durga_pooja/drawer_contents/helper_classes.dart';
 import 'package:durga_pooja/drawer_contents/check_out.dart';
+import 'package:durga_pooja/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -60,18 +61,11 @@ class _BuyTokensState extends State<BuyTokens> {
                 builder: (context) => CheckOut(mealsList: mealsList))),
           ),
         ],
-        //TODO:Apply routes
-        /*
-        leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: (){
-          Navigator.of(context).pop();
-        }),
-         */
         title: Text(
           "Buy Tokens",
         ),
       ),
       body: Container(
-        color: Colors.amber[100],
         child: Form(
           key: _formKey,
           child: Column(

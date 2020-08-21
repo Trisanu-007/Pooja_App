@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'home.dart';
 import 'login_register/switcher.dart';
 
-
 void main() {
   runApp(
     MaterialApp(
@@ -14,7 +13,6 @@ void main() {
     ),
   );
 }
-
 
 class ChangeRoute extends StatelessWidget {
   @override
@@ -28,17 +26,14 @@ class ChangeRoute extends StatelessWidget {
   }
 }
 
-
 class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
-    if(user == null){
+    if (user == null) {
       return SwitchScreens();
-    }
-    else{
+    } else {
       return HomePage();
     }
   }
 }
-

@@ -93,13 +93,6 @@ class _CheckOutState extends State<CheckOut> {
   }
 
   Widget build(BuildContext context) {
-    //var mealsList = Provider.of<MealCardList>(context);
-
-    for (var i = 0; i < widget.mealsList.getMealCard().length; i++)
-      print(
-          "${widget.mealsList.getMealCard()[i].day}  ${widget.mealsList.getMealCard()[i].if_veg}  ${widget.mealsList.getMealCard()[i].if_guest}  ${widget.mealsList.getMealCard()[i].count}");
-
-    print("-------$_totalCost ------------");
     return Scaffold(
       appBar: AppBar(
         title: Text("Check out"),
@@ -155,11 +148,46 @@ class _CheckOutState extends State<CheckOut> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text("S.no."),
-                Text("Day"),
-                Text("Veg/Non-Veg"),
-                Text("Time"),
-                Text("Count"),
+                Text(
+                  "S.no.",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.indigoAccent,
+                    fontSize: 20.0,
+                  ),
+                ),
+                Text(
+                  "Day",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.indigoAccent,
+                    fontSize: 20.0,
+                  ),
+                ),
+                Text(
+                  "Veg/Non-Veg",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.indigoAccent,
+                    fontSize: 20.0,
+                  ),
+                ),
+                Text(
+                  "Time",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.indigoAccent,
+                    fontSize: 20.0,
+                  ),
+                ),
+                Text(
+                  "Count",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.indigoAccent,
+                    fontSize: 20.0,
+                  ),
+                ),
 
                 //Text("Cost"),
               ],
@@ -172,20 +200,29 @@ class _CheckOutState extends State<CheckOut> {
                 itemCount: widget.mealsList.getMealCard().length,
                 itemBuilder: (context, index) {
                   return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //mainAxisAlignment: MainAxisAlignment.values[10,20,30,20,10],
                     children: [
-                      Text("${index + 1}"),
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(30.0, 5.0, 10.0, 5.0),
+                        child: Text("${index + 1}"),
+                      ),
                       Text("${widget.mealsList.getMealCard()[index].day}"),
                       !widget.mealsList.getMealCard()[index].if_veg
-                          ? Text("VEG")
-                          : Text("NON-VEG"),
+                          ? Icon(
+                              Icons.fiber_manual_record,
+                              color: Colors.green,
+                            )
+                          : Icon(
+                              Icons.fiber_manual_record,
+                              color: Colors.red,
+                            ),
                       widget.mealsList.getMealCard()[index].isBreakfast
-                          ? Text("B")
+                          ? Text("Breakfast")
                           : widget.mealsList.getMealCard()[index].isLunch
-                              ? Text("L")
-                              : Text("D"),
+                              ? Text("Lunch")
+                              : Text("Dinner"),
                       Text("${widget.mealsList.getMealCard()[index].count}"),
-                      //Text("Rs. 50"), // TODO: Change the cost here
                     ],
                   );
                 },
