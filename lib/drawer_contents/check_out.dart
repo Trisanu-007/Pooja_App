@@ -1,10 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:durga_pooja/database_services/database.dart';
 import 'package:durga_pooja/database_services/user_database.dart';
+import 'package:durga_pooja/shared_resources/authenticate.dart';
+import 'package:durga_pooja/shared_resources/loading.dart';
+import 'package:durga_pooja/shared_resources/error_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 class CheckOut extends StatefulWidget {
   final mealsList;
@@ -20,7 +24,7 @@ class _CheckOutState extends State<CheckOut> {
   String mobileNum;
   Razorpay _razorpay;
   Firestore firestoreInstance;
-  UserProfile userProfile = new UserProfile();
+  UserProfile userProfile;
 
   @override
   void initState() {
@@ -42,8 +46,8 @@ class _CheckOutState extends State<CheckOut> {
     setState(() {
       _totalMeals = _tcoupons;
       _totalCost = cost;
-      email = userProfile.email_id;
-      mobileNum = userProfile.mobile_num.toString();
+      //email = userProfile.email_id;
+      //mobileNum = userProfile.mobile_num.toString();
     });
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
@@ -56,13 +60,16 @@ class _CheckOutState extends State<CheckOut> {
     _razorpay.clear();
   }
 
-  void openCheckout() async {
+  void openCheckout(UserProfile profile) async {
     var options = {
-      "key": "rzp_test_LUz3nvkwacrQ9K",
+      "key": "YOUR_KEY_HERE",
       "amount": _totalCost * 100,
       "name": "Payment for the meals",
       "description": "Test payment",
-      "prefill": {"contact": mobileNum ?? '', "email": email ?? ''},
+      "prefill": {
+        "contact": profile.mobile_num ?? '',
+        "email": profile.email_id ?? ''
+      },
       "external": {
         "wallets": ["paytm"],
       },
@@ -93,170 +100,190 @@ class _CheckOutState extends State<CheckOut> {
   }
 
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Check out"),
-      ),
-      body: Container(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                children: [
-                  Text(
-                    "Total number of coupons are : ",
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                  Text(
-                    "$_totalMeals",
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
+    //_asyncMethod(context);
+    final user = Provider.of<CurrentUser>(context);
+    return StreamBuilder<UserProfile>(
+        stream: UserDatabase(uid: user.uid).getUserProfile,
+        // ignore: missing_return
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting)
+            return Loading();
+          if (snapshot.connectionState == ConnectionState.none) return Error();
+          if (snapshot.hasError) return Error();
+          UserProfile profile = snapshot.data;
+          if (snapshot.connectionState == ConnectionState.active) {
+            if (snapshot.hasError) return Error();
+            return Scaffold(
+              appBar: AppBar(
+                title: Text("Check out"),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                children: [
-                  Text(
-                    "Total cost of all coupons is : ",
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                  Text(
-                    "Rs. $_totalCost",
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 10.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  "S.no.",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.indigoAccent,
-                    fontSize: 20.0,
-                  ),
-                ),
-                Text(
-                  "Day",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.indigoAccent,
-                    fontSize: 20.0,
-                  ),
-                ),
-                Text(
-                  "Veg/Non-Veg",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.indigoAccent,
-                    fontSize: 20.0,
-                  ),
-                ),
-                Text(
-                  "Time",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.indigoAccent,
-                    fontSize: 20.0,
-                  ),
-                ),
-                Text(
-                  "Count",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.indigoAccent,
-                    fontSize: 20.0,
-                  ),
-                ),
-
-                //Text("Cost"),
-              ],
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            Flexible(
-              child: ListView.builder(
-                itemCount: widget.mealsList.getMealCard().length,
-                itemBuilder: (context, index) {
-                  return Row(
-                    //mainAxisAlignment: MainAxisAlignment.values[10,20,30,20,10],
-                    children: [
-                      Padding(
-                        padding:
-                            const EdgeInsets.fromLTRB(30.0, 5.0, 10.0, 5.0),
-                        child: Text("${index + 1}"),
-                      ),
-                      Text("${widget.mealsList.getMealCard()[index].day}"),
-                      !widget.mealsList.getMealCard()[index].if_veg
-                          ? Icon(
-                              Icons.fiber_manual_record,
-                              color: Colors.green,
-                            )
-                          : Icon(
-                              Icons.fiber_manual_record,
-                              color: Colors.red,
+              body: Container(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Total number of coupons are : ",
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey[600],
                             ),
-                      widget.mealsList.getMealCard()[index].isBreakfast
-                          ? Text("Breakfast")
-                          : widget.mealsList.getMealCard()[index].isLunch
-                              ? Text("Lunch")
-                              : Text("Dinner"),
-                      Text("${widget.mealsList.getMealCard()[index].count}"),
-                    ],
-                  );
-                },
+                          ),
+                          Text(
+                            "$_totalMeals",
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Total cost of all coupons is : ",
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                          Text(
+                            "Rs. $_totalCost",
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          "S.no.",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.indigoAccent,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                        Text(
+                          "Day",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.indigoAccent,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                        Text(
+                          "Veg/Non-Veg",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.indigoAccent,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                        Text(
+                          "Time",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.indigoAccent,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                        Text(
+                          "Count",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.indigoAccent,
+                            fontSize: 20.0,
+                          ),
+                        ),
+
+                        //Text("Cost"),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Flexible(
+                      child: ListView.builder(
+                        itemCount: widget.mealsList.getMealCard().length,
+                        itemBuilder: (context, index) {
+                          return Row(
+                            //mainAxisAlignment: MainAxisAlignment.values[10,20,30,20,10],
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    30.0, 5.0, 10.0, 5.0),
+                                child: Text("${index + 1}"),
+                              ),
+                              Text(
+                                  "${widget.mealsList.getMealCard()[index].day}"),
+                              !widget.mealsList.getMealCard()[index].if_veg
+                                  ? Icon(
+                                      Icons.fiber_manual_record,
+                                      color: Colors.green,
+                                    )
+                                  : Icon(
+                                      Icons.fiber_manual_record,
+                                      color: Colors.red,
+                                    ),
+                              widget.mealsList.getMealCard()[index].isBreakfast
+                                  ? Text("Breakfast")
+                                  : widget.mealsList
+                                          .getMealCard()[index]
+                                          .isLunch
+                                      ? Text("Lunch")
+                                      : Text("Dinner"),
+                              Text(
+                                  "${widget.mealsList.getMealCard()[index].count}"),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                    RaisedButton(
+                      padding: EdgeInsets.all(10.0),
+                      elevation: 20.0,
+                      splashColor: Colors.greenAccent,
+                      color: Colors.purple,
+                      textColor: Colors.white,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Pay using Razorpay",
+                            style: TextStyle(fontSize: 20.0),
+                          ),
+                          SizedBox(
+                            width: 20.0,
+                          ),
+                          Icon(Icons.payment),
+                        ],
+                      ),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(18.0),
+                          side: BorderSide(
+                              color: Colors.purpleAccent, width: 5.0)),
+                      onPressed: () {
+                        openCheckout(profile);
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-            RaisedButton(
-              padding: EdgeInsets.all(10.0),
-              elevation: 20.0,
-              splashColor: Colors.greenAccent,
-              color: Colors.purple,
-              textColor: Colors.white,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Pay using Razorpay",
-                    style: TextStyle(fontSize: 20.0),
-                  ),
-                  SizedBox(
-                    width: 20.0,
-                  ),
-                  Icon(Icons.payment),
-                ],
-              ),
-              shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(18.0),
-                  side: BorderSide(color: Colors.purpleAccent, width: 5.0)),
-              onPressed: () {
-                openCheckout();
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+            );
+          }
+        });
   }
 }

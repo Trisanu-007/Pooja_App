@@ -38,7 +38,9 @@ class _HomePageState extends State<HomePage> {
                 title: Text("My profile"),
                 trailing: Icon(Icons.account_circle),
                 onTap: () {
-                  Navigator.pushNamed(context, "buyCoupons");
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => ProfilePage()),
+                  );
                 },
               ),
               ListTile(
@@ -70,7 +72,7 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: Text("Home Page"),
         ),
-        body: Column(
+        body: ListView(
           children: [
             SizedBox(
               height: 30.0,
@@ -86,7 +88,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Image(
               image: AssetImage("assets/ehcbc.jpeg"),
-              width: MediaQuery.of(context).size.width,
+              width: 100.0
             ),
             AlertDialog(
               title: Text(

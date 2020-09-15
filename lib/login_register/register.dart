@@ -112,14 +112,14 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       color: Colors.white,
                       onPressed: () async {
-                        setState(() {
-                          loading = true;
-                        });
                         final formState = _formKey.currentState;
                         if (formState.validate()) {
+                          setState(() {
+                            loading = true;
+                          });
                           formState.save();
                           dynamic res =
-                              authenticate.register(_password, _email);
+                              await authenticate.register(_password, _email);
                           if (res == null) {
                             setState(() {
                               error = "Please supply a valid email or password";

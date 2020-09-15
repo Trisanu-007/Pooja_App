@@ -41,7 +41,7 @@ class DatabaseService {
           " " +
           "${DateFormat.yMMMEd().format(time)}",
       "total_cost_paid": totalCost,
-      "coupons": jsonDecode(_mealListToJson),
+        "coupons": jsonDecode(_mealListToJson),
     }, merge: true).then((_) => print("-----Record success-------"));
 
     await userCollection.document(uid).updateData({

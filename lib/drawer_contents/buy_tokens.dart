@@ -49,16 +49,25 @@ class _BuyTokensState extends State<BuyTokens> {
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
-          RaisedButton(
-            color: Colors.amber,
-            child: Row(
-              children: [
-                Text("Check out"),
-                Icon(Icons.shopping_cart),
-              ],
+          Container(
+            margin: EdgeInsets.all(5.0),
+            decoration: BoxDecoration(
+              //shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.circular(5.0),
             ),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => CheckOut(mealsList: mealsList))),
+            child: RaisedButton(
+              color: Colors.amber,
+              child: Row(
+                children: [
+                  Text("Check out"),
+                  Icon(
+                    Icons.shopping_cart,
+                  ),
+                ],
+              ),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => CheckOut(mealsList: mealsList))),
+            ),
           ),
         ],
         title: Text(
@@ -75,7 +84,7 @@ class _BuyTokensState extends State<BuyTokens> {
               ),
               Text(
                 "Choose Event",
-                style: TextStyle(fontSize: 20.0),
+                style: TextStyle(fontSize: 30.0),
               ),
               Container(
                 padding: const EdgeInsets.all(10.0),
@@ -107,9 +116,11 @@ class _BuyTokensState extends State<BuyTokens> {
                   },
                 ),
               ),
-              Text(
-                error,
-                style: TextStyle(color: Colors.red),
+              Container(
+                child: Text(
+                  error,
+                  style: TextStyle(color: Colors.red),
+                ),
               ),
               RaisedButton(
                 color: Colors.greenAccent,

@@ -17,6 +17,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final user = Provider.of<CurrentUser>(context);
     return StreamBuilder(
       stream: UserDatabase(uid: user.uid).getUserProfile,
+      // ignore: missing_return
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting)
           return Loading();
@@ -78,13 +79,13 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
       body: ListView(
         children: [
           Container(
-            padding: EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(15.0),
             child: Text(
               "Change your Profile Data : ",
-              style: GoogleFonts.comfortaa(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(
+                  color: Colors.grey[800],
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25.0),
             ),
           ),
           Divider(
@@ -104,7 +105,7 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.all(20.0),
+                    padding: EdgeInsets.all(10.0),
                     child: TextFormField(
                       decoration: InputDecoration(
                         labelText: profile.fullName,
@@ -138,7 +139,19 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
                     },
                   ),
                   Container(
-                    child: Text("$error_1"),
+                    //width: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                    child: Text(
+                      "$error_1",
+                      style: TextStyle(
+                        color: error_1 == "Name updated"
+                            ? Colors.green[800]
+                            : Colors.red[800],
+                        backgroundColor: (error_1 == "Name updated")
+                            ? Colors.greenAccent[100]
+                            : Colors.redAccent[100],
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -158,7 +171,7 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.all(20.0),
+                    padding: EdgeInsets.all(10.0),
                     child: TextFormField(
                       decoration: InputDecoration(
                         labelText: profile.flatnum,
@@ -182,7 +195,7 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
                         _formKeys[1].currentState.save();
                         dynamic ans = await UserDatabase(uid: user.uid)
                             .updateUserFlatNum(flatnum);
-                        if (ans == null)
+                        if (ans == null && ans != "")
                           setState(() {
                             error_2 = "Flatnum updated";
                           });
@@ -192,7 +205,17 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
                     },
                   ),
                   Container(
-                    child: Text("$error_2"),
+                    child: Text(
+                      "$error_2",
+                      style: TextStyle(
+                        color: error_2 == "Flatnum updated"
+                            ? Colors.green[800]
+                            : Colors.red[800],
+                        backgroundColor: (error_2 == "Flatnum updated")
+                            ? Colors.greenAccent[100]
+                            : Colors.redAccent[100],
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -246,7 +269,17 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
                     },
                   ),
                   Container(
-                    child: Text("$error_2"),
+                    child: Text(
+                      "$error_3",
+                      style: TextStyle(
+                        color: error_3 == "Flatnumber updated"
+                            ? Colors.green[800]
+                            : Colors.red[800],
+                        backgroundColor: (error_3 == "Flatnumber updated")
+                            ? Colors.greenAccent[100]
+                            : Colors.redAccent[100],
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -266,7 +299,7 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.all(20.0),
+                    padding: EdgeInsets.all(10.0),
                     child: TextFormField(
                       decoration: InputDecoration(labelText: profile.type),
                       autovalidate: true,

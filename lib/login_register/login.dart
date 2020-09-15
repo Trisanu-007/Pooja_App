@@ -109,13 +109,13 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 color: Colors.white,
                 onPressed: () async {
-                  setState(() {
-                    loading = true;
-                  });
                   final formState = _formKey.currentState;
                   if (formState.validate()) {
+                    setState(() {
+                      loading = true;
+                    });
                     formState.save();
-                    dynamic res = authenticate.signIn(_password, _email);
+                    dynamic res = await authenticate.signIn(_password, _email);
                     if (res == null) {
                       setState(() {
                         error = "Incorrect Email/Password\n/Did not register";
