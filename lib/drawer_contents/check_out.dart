@@ -25,6 +25,7 @@ class _CheckOutState extends State<CheckOut> {
   Razorpay _razorpay;
   Firestore firestoreInstance;
   UserProfile userProfile;
+  List<int> costPerMeal = [];
 
   @override
   void initState() {
@@ -37,9 +38,15 @@ class _CheckOutState extends State<CheckOut> {
         cost = cost +
             ((widget.mealsList.getMealCard()[i].if_guest ? 200 : 100) *
                 widget.mealsList.getMealCard()[i].count);
+        costPerMeal.add(
+            (widget.mealsList.getMealCard()[i].if_guest ? 200 : 100) *
+                widget.mealsList.getMealCard()[i].count);
       } else {
         cost = cost +
             ((widget.mealsList.getMealCard()[i].if_guest ? 300 : 200) *
+                widget.mealsList.getMealCard()[i].count);
+        costPerMeal.add(
+            (widget.mealsList.getMealCard()[i].if_guest ? 300 : 200) *
                 widget.mealsList.getMealCard()[i].count);
       }
     }
@@ -62,7 +69,7 @@ class _CheckOutState extends State<CheckOut> {
 
   void openCheckout(UserProfile profile) async {
     var options = {
-      "key": "YOUR_KEY_HERE",
+      "key": "rzp_test_LUz3nvkwacrQ9K",
       "amount": _totalCost * 100,
       "name": "Payment for the meals",
       "description": "Test payment",
@@ -168,52 +175,83 @@ class _CheckOutState extends State<CheckOut> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text(
-                          "S.no.",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.indigoAccent,
-                            fontSize: 20.0,
+                        Expanded(
+                          flex: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Text(
+                              "S.no.",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.indigoAccent,
+                                fontSize: 15.0,
+                              ),
+                            ),
                           ),
                         ),
-                        Text(
-                          "Day",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.indigoAccent,
-                            fontSize: 20.0,
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            "Day",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.indigoAccent,
+                              fontSize: 15.0,
+                            ),
                           ),
                         ),
-                        Text(
-                          "Veg/Non-Veg",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.indigoAccent,
-                            fontSize: 20.0,
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            "Veg/Non-Veg",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.indigoAccent,
+                              fontSize: 15.0,
+                            ),
                           ),
                         ),
-                        Text(
-                          "Time",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.indigoAccent,
-                            fontSize: 20.0,
+                        Expanded(
+                          flex: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "Time",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.indigoAccent,
+                                fontSize: 15.0,
+                              ),
+                            ),
                           ),
                         ),
-                        Text(
-                          "Count",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.indigoAccent,
-                            fontSize: 20.0,
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            "Count",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.indigoAccent,
+                              fontSize: 15.0,
+                            ),
                           ),
                         ),
-
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            "Cost",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.indigoAccent,
+                              fontSize: 15.0,
+                            ),
+                          ),
+                        ),
                         //Text("Cost"),
                       ],
                     ),
                     SizedBox(
-                      height: 10.0,
+                      height: 5.0,
                     ),
                     Flexible(
                       child: ListView.builder(
@@ -222,31 +260,120 @@ class _CheckOutState extends State<CheckOut> {
                           return Row(
                             //mainAxisAlignment: MainAxisAlignment.values[10,20,30,20,10],
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    30.0, 5.0, 10.0, 5.0),
-                                child: Text("${index + 1}"),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      20.0, 5.0, 20.0, 5.0),
+                                  child: Text(
+                                    "${index + 1}",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
                               ),
-                              Text(
-                                  "${widget.mealsList.getMealCard()[index].day}"),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  "${widget.mealsList.getMealCard()[index].day}",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
                               !widget.mealsList.getMealCard()[index].if_veg
-                                  ? Icon(
-                                      Icons.fiber_manual_record,
-                                      color: Colors.green,
+                                  ? Expanded(
+                                      child: Icon(
+                                        Icons.fiber_manual_record,
+                                        color: Colors.green,
+                                      ),
                                     )
-                                  : Icon(
-                                      Icons.fiber_manual_record,
-                                      color: Colors.red,
+                                  : Expanded(
+                                      child: Icon(
+                                        Icons.fiber_manual_record,
+                                        color: Colors.red,
+                                      ),
                                     ),
                               widget.mealsList.getMealCard()[index].isBreakfast
-                                  ? Text("Breakfast")
+                                  ? Expanded(
+                                      flex: 2,
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            25, 0.0, 10.0, 0.0),
+                                        child: Text(
+                                          "Breakfast",
+                                          style: TextStyle(
+                                            color: Colors.blueGrey,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    )
                                   : widget.mealsList
                                           .getMealCard()[index]
                                           .isLunch
-                                      ? Text("Lunch")
-                                      : Text("Dinner"),
-                              Text(
-                                  "${widget.mealsList.getMealCard()[index].count}"),
+                                      ? Expanded(
+                                          flex: 2,
+                                          child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                25, 0.0, 10.0, 0.0),
+                                            child: Text(
+                                              "Lunch",
+                                              style: TextStyle(
+                                                color: Colors.blueGrey,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ))
+                                      : Expanded(
+                                          flex: 2,
+                                          child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                25, 0.0, 10.0, 0.0),
+                                            child: Text(
+                                              "Dinner",
+                                              style: TextStyle(
+                                                color: Colors.blueGrey,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                              Expanded(
+                                //flex: 1,
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.fromLTRB(20, 0.0, 10.0, 0.0),
+                                  child: Text(
+                                      "${widget.mealsList.getMealCard()[index].count}",
+                                    style: TextStyle(
+                                      color: Colors.brown,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      10, 0.0, 10.0, 0.0),
+                                  child: Text("Rs. ${costPerMeal[index]}",
+                                    style: TextStyle(
+                                      color: Colors.teal,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                    ),),
+                                ),
+                              ),
                             ],
                           );
                         },
@@ -261,6 +388,10 @@ class _CheckOutState extends State<CheckOut> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          Icon(Icons.payment),
+                          SizedBox(
+                            width: 20.0,
+                          ),
                           Text(
                             "Pay using Razorpay",
                             style: TextStyle(fontSize: 20.0),
@@ -268,7 +399,6 @@ class _CheckOutState extends State<CheckOut> {
                           SizedBox(
                             width: 20.0,
                           ),
-                          Icon(Icons.payment),
                         ],
                       ),
                       shape: RoundedRectangleBorder(

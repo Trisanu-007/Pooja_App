@@ -10,8 +10,46 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  showAlert(BuildContext context){
+
+    Widget okClose = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+        },
+    );
+
+    Widget goToProfile = FlatButton(
+      child: Text("My Profile"),
+      onPressed: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => ProfilePage(),
+        ));
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text("Before you go on ..."),
+      content: Text(
+          "Please update your User data in the \"My Profile\" section before making any purchases"),
+      actions: [
+        goToProfile,
+        okClose,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    //showAlert(context);
     return MaterialApp(
       initialRoute: '/',
       routes: {
@@ -71,36 +109,82 @@ class _HomePageState extends State<HomePage> {
         ),
         appBar: AppBar(
           title: Text("Home Page"),
+          centerTitle: true,
         ),
         body: ListView(
           children: [
-            SizedBox(
-              height: 30.0,
-            ),
-            Container(
-              child: Center(
-                child: Text(
-                  "Welcome to EHCSC",
-                  style: TextStyle(fontSize: 30.0),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    //color: Colors.amberAccent[100],
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20.0),
+                      topRight: Radius.circular(20.0),
+                      bottomLeft: Radius.circular(20.0),
+                      bottomRight: Radius.circular(20.0),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset(
+
+                    "assets/ehcbc.jpeg",
+                    scale: 0.3,
+                    width: 500.0,
+                    //height: 600,
+                  ),
                 ),
-              ),
-              width: MediaQuery.of(context).size.width,
+                Container(
+                  child: Center(
+                    child: Text(
+                      "Welcome to EHCSC",
+                      style: TextStyle(
+                        fontSize: 40.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  width: MediaQuery.of(context).size.width,
+                ),
+              ],
             ),
-            Image(
-              image: AssetImage("assets/ehcbc.jpeg"),
-              width: 100.0
+            /*
+            Image.asset(
+              "assets/ehcbc.jpeg",
+              scale: 0.5,
             ),
+             */
+            //Image(image: AssetImage("assets/ehcbc.jpeg",)),
             AlertDialog(
-              title: Text(
+              title: Text("Before you go ahead ..."),
+              content: Text(
                   "Please update your User data in the \"My Profile\" section before making any purchases"),
               actions: [
                 RaisedButton(
-                    child: Text("My Profile"),
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ProfilePage(),
-                      ));
-                    })
+                  color: Colors.purpleAccent,
+                  child: Text("My Profile"),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ProfilePage(),
+                    ));
+                  },
+                ),
+                RaisedButton(
+                  child: Text("OK"),
+                  onPressed: (){
+                    Navigator.of(context).pop();
+                  },
+                ),
               ],
             ),
           ],

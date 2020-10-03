@@ -75,6 +75,7 @@ class _BuyTokensState extends State<BuyTokens> {
         ),
       ),
       body: Container(
+        //color: Colors.yellow[100],
         child: Form(
           key: _formKey,
           child: Column(
@@ -83,9 +84,14 @@ class _BuyTokensState extends State<BuyTokens> {
                 height: 20.0,
               ),
               Text(
-                "Choose Event",
-                style: TextStyle(fontSize: 30.0),
+                "Durga Pooja",
+                style: TextStyle(
+                  fontSize: 30.0,
+                  color: Colors.deepOrange,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+              /*
               Container(
                 padding: const EdgeInsets.all(10.0),
                 child: DropdownButtonFormField(
@@ -122,33 +128,60 @@ class _BuyTokensState extends State<BuyTokens> {
                   style: TextStyle(color: Colors.red),
                 ),
               ),
-              RaisedButton(
-                color: Colors.greenAccent,
-                child: Text(
-                  "Add Meals",
-                  style: TextStyle(color: Colors.white),
-                ),
-                onPressed: () {
-                  final formState = _formKey.currentState;
-                  if (formState.validate()) {
-                    formState.save();
-                    Provider.of<MealCardList>(context, listen: false)
-                        .addMealCard(MealCard(
-                      day: "Shashti - 22 Oct",
-                      if_veg: false,
-                      if_guest: false,
-                      count: 1,
-                      isBreakfast: false,
-                      isLunch: false,
-                      isDinner: false,
-                    ));
-                  } else {
-                    setState(() {
-                      error = "Please choose a field above";
-                    });
-                  }
-                },
+              */
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "Total coupons:",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20.0),
+                      ),
+                      Text(
+                        "${mealsList.getMealCard().length}",
+                        style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 20.0,
+                  ),
+                  RaisedButton(
+                    color: Colors.greenAccent,
+                    child: Text(
+                      "Add Meals",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {
+                      final formState = _formKey.currentState;
+                      if (formState.validate()) {
+                        formState.save();
+                        Provider.of<MealCardList>(context, listen: false)
+                            .addMealCard(MealCard(
+                          day: "Shashti - 22 Oct",
+                          if_veg: false,
+                          if_guest: false,
+                          count: 1,
+                          isBreakfast: false,
+                          isLunch: false,
+                          isDinner: false,
+                        ));
+                      } else {
+                        setState(() {
+                          error = "Please choose a field above";
+                        });
+                      }
+                    },
+                  ),
+                ],
               ),
+              /*
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -166,6 +199,7 @@ class _BuyTokensState extends State<BuyTokens> {
                   ),
                 ],
               ),
+               */
               Flexible(
                 child: ListView.builder(
                   itemCount: mealsList.getMealCard().length,
@@ -222,7 +256,7 @@ class _BuildMealsState extends State<BuildMeals> {
       child: Container(
         margin: EdgeInsets.all(10.0),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.amberAccent[100],
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20.0),
             topRight: Radius.circular(20.0),
@@ -245,7 +279,7 @@ class _BuildMealsState extends State<BuildMeals> {
               children: <Widget>[
                 Text(
                   "Choose a day:",
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold,color: Colors.indigoAccent),
                 ),
                 DropdownButtonFormField(
                   value: mealList.getMealCard()[widget.index].day,
