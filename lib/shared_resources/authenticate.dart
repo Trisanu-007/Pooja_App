@@ -71,7 +71,6 @@ class Authenticate {
   }
 
   // For SignUp
-
   Future signUp(Map<String, dynamic> userMap) async{
     try{
       AuthResult user = await _firebaseAuth.createUserWithEmailAndPassword(email: userMap['email_id'], password: userMap['password']);

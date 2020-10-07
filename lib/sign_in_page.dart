@@ -115,7 +115,10 @@ class _SignInPageState extends State<SignInPage> {
                   RaisedButton(
                     child: Text('Sign In'),
                     onPressed: (){
-                      authenticate.signIn(_passwordController.text, _emailController.text);
+                      //if(_formKey.currentState.validate()) {
+                        authenticate.signIn(
+                            _passwordController.text, _emailController.text);
+                      //}
                     },
                   )
                 ],
@@ -211,7 +214,7 @@ class _SignInPageState extends State<SignInPage> {
                     UserProfile user = UserProfile(
                       password: _passwordController.text,
                       email_id: _emailController.text,
-                      mobile_num: _phoneNumberController.text,
+                      mobile_num: int.parse(_phoneNumberController.text),
                       flatnum: _flatNumberController.text,
                       fullName: _fullNameController.text,
                     );

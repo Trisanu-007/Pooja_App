@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import '../shared_resources/hex_color.dart';
 
 class CheckOut extends StatefulWidget {
   final mealsList;
@@ -69,7 +70,7 @@ class _CheckOutState extends State<CheckOut> {
 
   void openCheckout(UserProfile profile) async {
     var options = {
-      "key": "rzp_test_LUz3nvkwacrQ9K",
+      "key": "API-KEY HERE",
       "amount": _totalCost * 100,
       "name": "Payment for the meals",
       "description": "Test payment",
@@ -122,6 +123,7 @@ class _CheckOutState extends State<CheckOut> {
             if (snapshot.hasError) return Error();
             return Scaffold(
               appBar: AppBar(
+                backgroundColor: HexColor('#0D30F2'),
                 title: Text("Check out"),
               ),
               body: Container(

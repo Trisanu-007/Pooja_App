@@ -1,10 +1,10 @@
 import 'dart:core';
 import 'package:durga_pooja/drawer_contents/helper_classes.dart';
 import 'package:durga_pooja/drawer_contents/check_out.dart';
-import 'package:durga_pooja/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../shared_resources/hex_color.dart';
 
 class HomeBuyTokens extends StatelessWidget {
   @override
@@ -46,6 +46,7 @@ class _BuyTokensState extends State<BuyTokens> {
     //print(mealsList);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: HexColor('#0D30F2'),
         actions: <Widget>[
           Container(
             margin: EdgeInsets.all(5.0),

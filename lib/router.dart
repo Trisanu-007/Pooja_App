@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class Router extends StatelessWidget {
+class Routers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Authenticate authenticate = Provider.of<Authenticate>(context);

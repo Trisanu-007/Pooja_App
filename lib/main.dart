@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
      create: (context) => Authenticate(),
      child: MaterialApp(
        debugShowCheckedModeBanner: false,
-       home: Router(),
+       home: Routers(),
      ),
     );
   }
