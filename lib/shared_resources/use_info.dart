@@ -2,7 +2,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'hex_color.dart';
 
-class UseInfo extends StatelessWidget {
+class UseInfo extends StatefulWidget {
+  @override
+  _UseInfoState createState() => _UseInfoState();
+}
+
+class _UseInfoState extends State<UseInfo> {
   List<String> _instructions = [
     "Make sure after you have signed in you go to \"My Profile\" and update all the relevant info there . ",
     "After that you can go to \"Buy Coupons\" and then buy the coupons there. We recommend buying 1 day's worth meal at a time.",

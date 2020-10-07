@@ -70,7 +70,7 @@ class _CheckOutState extends State<CheckOut> {
 
   void openCheckout(UserProfile profile) async {
     var options = {
-      "key": "API-KEY HERE",
+      "key": "API_KEY_HERE",
       "amount": _totalCost * 100,
       "name": "Payment for the meals",
       "description": "Test payment",

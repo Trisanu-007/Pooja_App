@@ -10,12 +10,12 @@ class CurrentUser {
 }
 
 class Authenticate {
-
   String uid;
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  Stream<FirebaseUser> get onAuthStateChange => _firebaseAuth.onAuthStateChanged;
+  Stream<FirebaseUser> get onAuthStateChange =>
+      _firebaseAuth.onAuthStateChanged;
 
   //Converting to user class
   CurrentUser _convertToCurrentUser(FirebaseUser user) {
@@ -23,10 +23,10 @@ class Authenticate {
   }
 
   //Gets the current user
-  Future<FirebaseUser> getCurrentUser() async{
-    try{
+  Future<FirebaseUser> getCurrentUser() async {
+    try {
       return _firebaseAuth.currentUser();
-    }catch(e){
+    } catch (e) {
       print(e);
       return e;
     }
@@ -64,19 +64,23 @@ class Authenticate {
     } on PlatformException catch (error) {
       print(error);
       return error.toString();
-    } catch (error) {
+    }  catch (error) {
       print(error);
       return error.toString();
     }
   }
 
   // For SignUp
-  Future signUp(Map<String, dynamic> userMap) async{
-    try{
-      AuthResult user = await _firebaseAuth.createUserWithEmailAndPassword(email: userMap['email_id'], password: userMap['password']);
-      Firestore.instance.collection('users').document('${user.user.uid}').setData(userMap);
+  Future signUp(Map<String, dynamic> userMap) async {
+    try {
+      AuthResult user = await _firebaseAuth.createUserWithEmailAndPassword(
+          email: userMap['email_id'], password: userMap['password']);
+      Firestore.instance
+          .collection('users')
+          .document('${user.user.uid}')
+          .setData(userMap);
       this.uid = user.user.uid;
-    }catch(e){
+    } catch (e) {
       print(e);
       return e;
     }
