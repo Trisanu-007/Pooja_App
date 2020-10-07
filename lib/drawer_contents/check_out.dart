@@ -108,7 +108,7 @@ class _CheckOutState extends State<CheckOut> {
 
   Widget build(BuildContext context) {
     //_asyncMethod(context);
-    final user = Provider.of<CurrentUser>(context);
+    final user = Provider.of<Authenticate>(context);
     return StreamBuilder<UserProfile>(
         stream: UserDatabase(uid: user.uid).getUserProfile,
         // ignore: missing_return

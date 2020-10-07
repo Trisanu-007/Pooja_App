@@ -1,3 +1,5 @@
+import 'package:durga_pooja/database_services/user_database.dart';
+import 'package:durga_pooja/router.dart';
 import 'package:durga_pooja/shared_resources/authenticate.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,35 +7,43 @@ import 'home.dart';
 import 'login_register/switcher.dart';
 
 void main() {
-  runApp(
-    MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Pooja_App",
-      home: ChangeRoute(),
-    ),
-  );
+  runApp(MyApp());
 }
 
-class ChangeRoute extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<CurrentUser>.value(
-      value: Authenticate().user,
-      child: MaterialApp(
-        home: Wrapper(),
-      ),
+    return Provider<Authenticate>(
+     create: (context) => Authenticate(),
+     child: MaterialApp(
+       debugShowCheckedModeBanner: false,
+       home: Router(),
+     ),
     );
   }
 }
 
-class Wrapper extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final user = Provider.of<CurrentUser>(context);
-    if (user == null) {
-      return SwitchScreens();
-    } else {
-      return HomePage();
-    }
-  }
-}
+
+// class ChangeRoute extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return StreamProvider<CurrentUser>.value(
+//       value: Authenticate().user,
+//       child: MaterialApp(
+//         home: Wrapper(),
+//       ),
+//     );
+//   }
+// }
+//
+// class Wrapper extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     final user = Provider.of<CurrentUser>(context);
+//     if (user == null) {
+//       return SwitchScreens();
+//     } else {
+//       return HomePage();
+//     }
+//   }
+// }
