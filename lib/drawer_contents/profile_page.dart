@@ -14,23 +14,22 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<CurrentUser>(context);
-    return StreamBuilder(
-      stream: UserDatabase(uid: user.uid).getUserProfile,
+    final user = Provider.of<Authenticate>(context);
+    return FutureBuilder(
+      future: UserDatabase(uid: user.uid).userProfileFromDatabase(uid: user.uid),
       // ignore: missing_return
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting)
-          return Loading();
-        if (snapshot.connectionState == ConnectionState.none) return Error();
-        if (snapshot.connectionState == ConnectionState.active) {
-          if (snapshot.hasError) return Error();
-          if (snapshot.hasData) {
-            //UserProfile profile = snapshot.data;
-            return UpdateUserProfile(
-              snapshot: snapshot,
-            );
+        if(snapshot.hasData){
+          if(snapshot.data == null){
+            return UpdateUserProfile(snapshot: snapshot,);
+          }else if(snapshot.data != null){
+            return UpdateUserProfile(snapshot: snapshot,);
           }
-        }
+        }else if(snapshot.hasError){
+          return Error();
+        }else if(snapshot.connectionState == ConnectionState.waiting){
+          return Loading();
+        }return Loading();
       },
     );
   }
@@ -71,7 +70,7 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
   @override
   Widget build(BuildContext context) {
     UserProfile profile = widget.snapshot.data;
-    final user = Provider.of<CurrentUser>(context);
+    final user = Provider.of<Authenticate>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("My Profile", style: GoogleFonts.lato()),

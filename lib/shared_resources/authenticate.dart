@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:durga_pooja/database_services/database.dart';
 import 'package:durga_pooja/database_services/user_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,11 +10,26 @@ class CurrentUser {
 }
 
 class Authenticate {
+
+  String uid;
+
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  Stream<FirebaseUser> get onAuthStateChange => _firebaseAuth.onAuthStateChanged;
 
   //Converting to user class
   CurrentUser _convertToCurrentUser(FirebaseUser user) {
     return user != null ? CurrentUser(uid: user.uid) : null;
+  }
+
+  //Gets the current user
+  Future<FirebaseUser> getCurrentUser() async{
+    try{
+      return _firebaseAuth.currentUser();
+    }catch(e){
+      print(e);
+      return e;
+    }
   }
 
   //For registering the user into the app
@@ -42,6 +58,7 @@ class Authenticate {
           .signInWithEmailAndPassword(
               email: email.trim(), password: password.trim());
       FirebaseUser user = result.user;
+      this.uid = user.uid;
       print(user);
       return _convertToCurrentUser(user);
     } on PlatformException catch (error) {
@@ -50,6 +67,19 @@ class Authenticate {
     } catch (error) {
       print(error);
       return error.toString();
+    }
+  }
+
+  // For SignUp
+
+  Future signUp(Map<String, dynamic> userMap) async{
+    try{
+      AuthResult user = await _firebaseAuth.createUserWithEmailAndPassword(email: userMap['email_id'], password: userMap['password']);
+      Firestore.instance.collection('users').document('${user.user.uid}').setData(userMap);
+      this.uid = user.user.uid;
+    }catch(e){
+      print(e);
+      return e;
     }
   }
 

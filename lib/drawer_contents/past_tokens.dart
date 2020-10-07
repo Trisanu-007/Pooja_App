@@ -17,7 +17,7 @@ class PastTokens extends StatefulWidget {
 class _PastTokensState extends State<PastTokens> {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<CurrentUser>(context);
+    final user = Provider.of<Authenticate>(context);
     return StreamBuilder<List<CouponData>>(
         stream: DatabaseService(uid: user.uid).couponData ?? "0",
         // ignore: missing_return

@@ -9,13 +9,11 @@ import 'package:provider/provider.dart';
 class HomeBuyTokens extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: ChangeNotifierProvider(
-        create: (context) => MealCardList(
-          mealCards: [],
-        ),
-        child: BuyTokens(),
+    return ChangeNotifierProvider(
+      create: (context) => MealCardList(
+        mealCards: [],
       ),
+      child: BuyTokens(),
     );
   }
 }
@@ -254,6 +252,7 @@ class _BuildMealsState extends State<BuildMeals> {
         alignment: AlignmentDirectional.centerStart,
       ),
       child: Container(
+        width: MediaQuery.of(context).size.width,
         margin: EdgeInsets.all(10.0),
         decoration: BoxDecoration(
           color: Colors.amberAccent[100],
@@ -370,99 +369,100 @@ class _BuildMealsState extends State<BuildMeals> {
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Switch(
-                      value: mealList.getMealCard()[widget.index].if_veg,
-                      onChanged: (val) {
-                        setState(() {
-                          Provider.of<MealCardList>(context, listen: false)
-                              .getMealCard()[widget.index]
-                              .if_veg = val;
-                        });
-                      },
-                      activeTrackColor: Colors.redAccent,
-                      activeColor: Colors.white,
-                      inactiveTrackColor: Colors.green,
-                    ),
-                    Container(
-                      child: mealList.getMealCard()[widget.index].if_veg
-                          ? Text(
-                              "NON-VEG",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : Text(
-                              "VEG",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                      color: mealList.getMealCard()[widget.index].if_veg
-                          ? Colors.redAccent
-                          : Colors.greenAccent,
-                      padding: EdgeInsets.all(2.0),
-                    ),
-                    Switch(
-                      value: mealList.getMealCard()[widget.index].if_guest,
-                      onChanged: (val) {
-                        setState(() {
-                          Provider.of<MealCardList>(context, listen: false)
-                              .getMealCard()[widget.index]
-                              .if_guest = val;
-                        });
-                      },
-                      activeTrackColor: Colors.deepOrange,
-                      activeColor: Colors.white,
-                      inactiveTrackColor: Colors.blueAccent,
-                    ),
-                    Container(
-                      child: mealList.getMealCard()[widget.index].if_guest
-                          ? Text(
-                              "GUEST",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : Text(
-                              "RESIDENT",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                      color: mealList.getMealCard()[widget.index].if_guest
-                          ? Colors.deepOrange
-                          : Colors.blueAccent,
-                      padding: EdgeInsets.all(2.0),
-                    ),
-                    SizedBox(
-                      width: 20.0,
-                    ),
-                    //Text("Count:"),
-                    Container(
-                      child: Text(
-                        "${mealList.getMealCard()[widget.index].count}",
-                        style: TextStyle(fontSize: 20.0),
-                      ),
-                      color: Colors.grey[300],
-                      padding: EdgeInsets.all(5.0),
-                    ),
-                    ButtonTheme(
-                      minWidth: 20.0,
-                      child: FlatButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          color: Colors.lime,
-                          child: Icon(Icons.add),
-                          onPressed: () {
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Switch(
+                        value: mealList.getMealCard()[widget.index].if_veg,
+                        onChanged: (val) {
+                          setState(() {
                             Provider.of<MealCardList>(context, listen: false)
-                                .updateMealCardCount(widget.index);
-                          }),
-                    ),
-                  ],
+                                .getMealCard()[widget.index]
+                                .if_veg = val;
+                          });
+                        },
+                        activeTrackColor: Colors.redAccent,
+                        activeColor: Colors.white,
+                        inactiveTrackColor: Colors.green,
+                      ),
+                      Container(
+                        child: mealList.getMealCard()[widget.index].if_veg
+                            ? Text(
+                                "NON-VEG",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : Text(
+                                "VEG",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                        color: mealList.getMealCard()[widget.index].if_veg
+                            ? Colors.redAccent
+                            : Colors.greenAccent,
+                        padding: EdgeInsets.all(1.0),
+                      ),
+                      Switch(
+                        value: mealList.getMealCard()[widget.index].if_guest,
+                        onChanged: (val) {
+                          setState(() {
+                            Provider.of<MealCardList>(context, listen: false)
+                                .getMealCard()[widget.index]
+                                .if_guest = val;
+                          });
+                        },
+                        activeTrackColor: Colors.deepOrange,
+                        activeColor: Colors.white,
+                        inactiveTrackColor: Colors.blueAccent,
+                      ),
+                      Container(
+                        child: mealList.getMealCard()[widget.index].if_guest
+                            ? Text(
+                                "GUEST",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : Text(
+                                "RESIDENT",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                        color: mealList.getMealCard()[widget.index].if_guest
+                            ? Colors.deepOrange
+                            : Colors.blueAccent,
+                        padding: EdgeInsets.all(1.0),
+                      ),
+
+                      //Text("Count:"),
+                      Container(
+                        child: Text(
+                          "${mealList.getMealCard()[widget.index].count}",
+                          style: TextStyle(fontSize: 20.0),
+                        ),
+                        color: Colors.grey[300],
+                        padding: EdgeInsets.all(2.0),
+                      ),
+                      ButtonTheme(
+                        minWidth: 20.0,
+                        child: FlatButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            color: Colors.lime,
+                            child: Icon(Icons.add),
+                            onPressed: () {
+                              Provider.of<MealCardList>(context, listen: false)
+                                  .updateMealCardCount(widget.index);
+                            }),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
