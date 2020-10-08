@@ -180,6 +180,7 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
                 ),
               ),
             ),
+            /*
             Container(
               margin: EdgeInsets.all(10.0),
               child: Form(
@@ -251,6 +252,7 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
                 ),
               ),
             ),
+             */
             Container(
               margin: EdgeInsets.all(10.0),
               child: Form(
@@ -329,7 +331,7 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
                 child: Column(
                   children: [
                     Text(
-                      "Type : ",
+                      "Type : (Owner/Tenant)",
                       style: GoogleFonts.comfortaa(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
@@ -367,6 +369,7 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
                           _formKeys[3].currentState.save();
                           dynamic ans = await UserDatabase(uid: user.uid)
                               .updateUserType(type);
+                          print(ans);
                           if (ans == null)
                             setState(() {
                               error_4 = "Type updated";
@@ -396,7 +399,7 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
             Container(
               padding: EdgeInsets.all(20.0),
               child: Text(
-                "Change Email,Password,Mobile Number : ",
+                "Change Email,Password,Phone Number : ",
                 style: TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
@@ -422,10 +425,10 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
               child: Form(
                 key: _formKeys[4],
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "Updated Email-Id: ",
+                      "New Email-Id: ",
                       style: GoogleFonts.comfortaa(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
@@ -474,123 +477,131 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
                         onSaved: (val) => password = val,
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
-              child: RaisedButton(
-                child: Text(
-                  "Update Email-Id",
-                  style: GoogleFonts.comfortaa(
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                color: Colors.purple,
-                onPressed: () async {
-                  if (_formKeys[4].currentState.validate()) {
-                    _formKeys[4].currentState.save();
-                    dynamic res = Authenticate().updateUserEmail(
-                        emailId.trim(), profile.email_id.trim(), password);
-                    dynamic ans = await UserDatabase(uid: user.uid)
-                        .updateUserEmailId(emailId.trim());
-                    if (ans == null && res != null)
-                      setState(() {
-                        error_5 = "Email updated";
-                      });
-                    else
-                      error_5 = "Please try again";
-                  }
-                },
-              ),
-            ),
-            Container(
-              child: Text(
-                "$error_5",
-                style: TextStyle(
-                  color: error_5 == "Type updated"
-                      ? Colors.green[800]
-                      : Colors.red[800],
-                  backgroundColor: (error_5 == "Type updated")
-                      ? Colors.greenAccent[100]
-                      : Colors.redAccent[100],
-                ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(10.0),
-              child: Form(
-                key: _formKeys[5],
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Change your Phone number:",
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
+                    Container(
+                      padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                      child: RaisedButton(
+                        child: Text(
+                          "Update Email-Id",
+                          style: GoogleFonts.comfortaa(
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        color: Colors.purple,
+                        onPressed: () async {
+                          if (_formKeys[4].currentState.validate()) {
+                            _formKeys[4].currentState.save();
+                            dynamic res = Authenticate().updateUserEmail(
+                                emailId.trim(),
+                                profile.email_id.trim(),
+                                password);
+                            dynamic ans = await UserDatabase(uid: user.uid)
+                                .updateUserEmailId(emailId.trim());
+                            if (ans == null && res != null)
+                              setState(() {
+                                error_5 = "Email updated";
+                              });
+                            else
+                              error_5 = "Please try again";
+                          }
+                        },
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.all(10.0),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: "Enter your phone number(Without +91)",
+                      child: Text(
+                        "$error_5",
+                        style: TextStyle(
+                          color: error_5 == "Email updated"
+                              ? Colors.green[800]
+                              : Colors.red[800],
+                          backgroundColor: (error_5 == "Email updated")
+                              ? Colors.greenAccent[100]
+                              : Colors.redAccent[100],
                         ),
-                        keyboardType: TextInputType.number,
-                        validator: (val) {
-                          if (val.isEmpty) {
-                            return "Enter new phone number (Without the +91)";
-                          }
-                          return null;
-                        },
-                        onSaved: (newValue) => mobileNum = int.parse(newValue),
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
-              child: RaisedButton(
-                child: Text(
-                  "Update Phone Number",
-                  style: GoogleFonts.comfortaa(),
+            Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(10.0),
+                  child: Form(
+                    key: _formKeys[5],
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Change your Phone number:",
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(10.0),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText: "Enter your phone number(Without +91)",
+                            ),
+                            keyboardType: TextInputType.number,
+                            validator: (val) {
+                              if (val.isEmpty) {
+                                return "Enter new phone number (Without the +91)";
+                              }
+                              return null;
+                            },
+                            onSaved: (newValue) =>
+                                mobileNum = int.parse(newValue),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                textColor: Colors.white,
-                color: Colors.purple,
-                onPressed: () {
-                  if (_formKeys[5].currentState.validate()) {
-                    _formKeys[5].currentState.save();
-                    dynamic ans = UserDatabase(uid: user.uid)
-                        .updateUserMobileNumber(mobileNum);
-                    if (ans == null) {
-                      setState() => error_6 = "Phone number updated";
-                    } else {
-                      setState() => error_6 = "Please try again";
-                    }
-                  }
-                },
-              ),
-            ),
-            Container(
-              child: Text(
-                "$error_6",
-                style: TextStyle(
-                  color: error_6 == "Type updated"
-                      ? Colors.green[800]
-                      : Colors.red[800],
-                  backgroundColor: (error_6 == "Type updated")
-                      ? Colors.greenAccent[100]
-                      : Colors.redAccent[100],
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                  child: RaisedButton(
+                    child: Text(
+                      "Update Phone Number",
+                      style: GoogleFonts.comfortaa(),
+                    ),
+                    textColor: Colors.white,
+                    color: Colors.purple,
+                    onPressed: () {
+                      if (_formKeys[5].currentState.validate()) {
+                        _formKeys[5].currentState.save();
+                        dynamic ans = UserDatabase(uid: user.uid)
+                            .updateUserMobileNumber(mobileNum);
+                        print(ans);
+                        if (ans != null) {
+                          setState(() => error_6 = "Phone number updated");
+                        } else {
+                          setState(() => error_6 = "Please try again");
+                        }
+                      }
+                    },
+                  ),
                 ),
-              ),
+                Container(
+                  child: Text(
+                    "$error_6",
+                    style: TextStyle(
+                      color: error_6 == "Phone number updated"
+                          ? Colors.green[800]
+                          : Colors.red[800],
+                      backgroundColor: (error_6 == "Phone number updated")
+                          ? Colors.greenAccent[100]
+                          : Colors.redAccent[100],
+                    ),
+                  ),
+                ),
+              ],
             ),
             Container(
               padding: EdgeInsets.all(10.0),
@@ -604,7 +615,7 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
             ),
             Container(
               margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-              padding: EdgeInsets.all(5),
+              padding: EdgeInsets.all(10),
               color: Colors.blue[100],
               child: Text(
                 "This will send a mail to your current email-id from where you can proceed to change your password.",
@@ -630,24 +641,28 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
                           //_formKeys[6].currentState.save();
                           dynamic ans = Authenticate()
                               .resetUserPassword(profile.email_id.trim());
-                          if (ans == null) {
-                            setState() => error_7 =
-                                "A Password reset link has been sent to your e-mail : ${profile.email_id}";
+                          if (ans != null) {
+                            setState(() => error_7 =
+                                "The Password reset link has been sent to your e-mail : ${profile.email_id}");
                           } else {
-                            setState() => error_7 = "Please try again";
+                            setState(() => error_7 = "Please try again");
                           }
                         }
                         // },
                         ),
                   ),
                   Container(
+                    margin: EdgeInsets.all(5),
+                    //padding: EdgeInsets.all(),
                     child: Text(
                       "$error_7",
                       style: TextStyle(
-                        color: error_7 == "Type updated"
+                        color: error_7 ==
+                                "The Password reset link has been sent to your e-mail : ${profile.email_id}"
                             ? Colors.green[800]
                             : Colors.red[800],
-                        backgroundColor: (error_7 == "Type updated")
+                        backgroundColor: (error_7 ==
+                                "The Password reset link has been sent to your e-mail : ${profile.email_id}")
                             ? Colors.greenAccent[100]
                             : Colors.redAccent[100],
                       ),

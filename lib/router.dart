@@ -5,6 +5,7 @@ import 'package:durga_pooja/sign_in_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'shared_resources/loading.dart';
 
 class Routers extends StatelessWidget {
   @override
@@ -21,7 +22,7 @@ class Routers extends StatelessWidget {
           }else if(snapshot.hasError){
             return Center(child: Text(snapshot.error),);
           }else{
-            return Center(child: CircularProgressIndicator(),);
+            return Center(child: Loading(),);
           }
         },
       ),
