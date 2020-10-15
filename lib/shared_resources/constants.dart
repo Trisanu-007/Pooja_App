@@ -6,7 +6,7 @@ List<Map<String, dynamic>> costMap = [
         "non-veg": {"resi": 0, "guest": 0}
       },
       "dinner": {
-        "veg": {"resi": 80, "guest": 120},
+        "veg": {"resi": 100, "guest": 150},
         "non-veg": {"resi": 0, "guest": 0}
       },
     },
@@ -14,23 +14,23 @@ List<Map<String, dynamic>> costMap = [
   {
     "saptami": {
       "lunch": {
-        "veg": {"resi": 60, "guest": 120},
-        "non-veg": {"resi": 70, "guest": 150}
+        "veg": {"resi": 100, "guest": 200},
+        "non-veg": {"resi": 130, "guest": 250}
       },
       "dinner": {
-        "veg": {"resi": 100, "guest": 150},
-        "non-veg": {"resi": 120, "guest": 150}
+        "veg": {"resi": 120, "guest": 200},
+        "non-veg": {"resi": 150, "guest": 250}
       }
     },
   },
   {
     "astami": {
       "lunch": {
-        "veg": {"resi": 50, "guest": 100},
+        "veg": {"resi": 30, "guest": 100},
         "non-veg": {"resi": 0, "guest": 0}
       },
       "dinner": {
-        "veg": {"resi": 80, "guest": 120},
+        "veg": {"resi": 120, "guest": 200},
         "non-veg": {"resi": 0, "guest": 0}
       }
     },
@@ -38,24 +38,24 @@ List<Map<String, dynamic>> costMap = [
   {
     "nabami": {
       "lunch": {
-        "veg": {"resi": 80, "guest": 150},
-        "non-veg": {"resi": 100, "guest": 250}
+        "veg": {"resi": 100, "guest": 200},
+        "non-veg": {"resi": 150, "guest": 250}
       },
       "dinner": {
-        "veg": {"resi": 120, "guest": 150},
-        "non-veg": {"resi": 130, "guest": 170}
+        "veg": {"resi": 120, "guest": 200},
+        "non-veg": {"resi": 150, "guest": 250}
       }
     },
   },
   {
     "dasami": {
       "lunch": {
-        "veg": {"resi": 60, "guest": 120},
-        "non-veg": {"resi": 70, "guest": 150}
+        "veg": {"resi": 100, "guest": 150},
+        "non-veg": {"resi": 100, "guest": 150}
       },
       "dinner": {
-        "veg": {"resi": 120, "guest": 150},
-        "non-veg": {"resi": 200, "guest": 300}
+        "veg": {"resi": 150, "guest": 250},
+        "non-veg": {"resi": 250, "guest": 350}
       }
     },
   },

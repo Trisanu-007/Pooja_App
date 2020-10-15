@@ -80,9 +80,8 @@ class Authenticate {
           .document('${user.user.uid}')
           .setData(userMap);
       this.uid = user.user.uid;
-    } catch (e) {
-      print(e);
-      return e;
+    }  catch (e) {
+      return "Something went wrong please try again !";
     }
   }
 

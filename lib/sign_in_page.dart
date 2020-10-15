@@ -12,6 +12,10 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+
+  String error1 = "";
+  String error2 = "";
+
   bool signIn = false;
 
   final _formKey = GlobalKey<FormState>();
@@ -115,14 +119,21 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                         onPressed: () async {
                           //if(_formKey.currentState.validate())  {
-                          await authenticate.signIn(
+                          dynamic res = await authenticate.signIn(
                               _passwordController.text, _emailController.text);
                           //}
+                          if(res==null){
+                            setState(() {
+                              error1 = res;
+                            });
+                          }
                         },
                       ),
-                      SizedBox(
-                        height: 20.0,
+                      Container(
+                        padding: EdgeInsets.all(10.0),
+                        child: Text(error1,style: TextStyle(color: Colors.red,fontSize: 15.0,),),
                       ),
+
                       RaisedButton(
                         color: Colors.purple,
                         child: Text(
@@ -232,7 +243,12 @@ class _SignInPageState extends State<SignInPage> {
                           flatnum: _flatNumberController.text,
                           fullName: _fullNameController.text,
                         );
-                        await authenticate.signUp(user.toMap());
+                        dynamic res = await authenticate.signUp(user.toMap());
+                        if(res!=null) {
+                          setState(() {
+                            error2 = res;
+                          });
+                        }
                       },
                     ),
                     SizedBox(
@@ -252,7 +268,10 @@ class _SignInPageState extends State<SignInPage> {
                               });
                             },
                           )
-                        : SizedBox()
+                        : SizedBox(),
+                    Container(
+                      child: Text(error2,style: TextStyle(color: Colors.red),),
+                    ),
                   ],
                 ),
               ),

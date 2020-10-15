@@ -13,7 +13,7 @@ class Routers extends StatelessWidget {
     Authenticate authenticate = Provider.of<Authenticate>(context);
     return Scaffold(
       body: StreamBuilder(
-        stream: authenticate.onAuthStateChange,
+        stream : authenticate.onAuthStateChange,
         builder: (context, snapshot){
           if(snapshot.hasData || snapshot.connectionState == ConnectionState.active){
             if(snapshot.data == null){
