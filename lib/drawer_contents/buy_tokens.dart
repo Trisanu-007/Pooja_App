@@ -167,7 +167,7 @@ class _BuyTokensState extends State<BuyTokens> {
                           if_veg: false,
                           if_guest: false,
                           count: 1,
-                          isBreakfast: false,
+                          isBreakfast: true,
                           isLunch: false,
                           isDinner: false,
                         ));

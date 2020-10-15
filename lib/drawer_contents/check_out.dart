@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:durga_pooja/database_services/database.dart';
 import 'package:durga_pooja/database_services/user_database.dart';
 import 'package:durga_pooja/shared_resources/authenticate.dart';
+import 'package:durga_pooja/shared_resources/constants.dart';
 import 'package:durga_pooja/shared_resources/loading.dart';
 import 'package:durga_pooja/shared_resources/error_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,6 +36,129 @@ class _CheckOutState extends State<CheckOut> {
     var cost = 0;
     for (var i = 0; i < widget.mealsList.getMealCard().length; i++) {
       _tcoupons += widget.mealsList.getMealCard()[i].count;
+      var detail = widget.mealsList.getMealCard()[i];
+      //print(costMap[0]["sasthi"]["dinner"]["veg"]["resi"] * detail.count);
+      print(detail.if_guest);
+      if(detail.day == "Shashti - 22 Oct"){
+        if(detail.isBreakfast){
+          if(!detail.if_veg){
+            if(!detail.if_guest){
+              cost =  cost + 0 * detail.count; //(costMap[0]["sasthi"]["veg"]["resi"] * detail.count);
+              costPerMeal.add(0 * detail.count);
+            }else{
+              cost =  cost + 0 * detail.count;//(costMap[0]["sasthi"]["veg"]["guest"] * detail.count);
+              costPerMeal.add(0 * detail.count);
+            }
+          }else{
+            if(!detail.if_guest){
+              cost =  cost + 0 * detail.count;//(costMap[0]["sasthi"]["non-veg"]["resi"] * detail.count);
+              costPerMeal.add(0 * detail.count);
+            }else{
+              cost =  cost + 0 * detail.count;//(costMap[0]["sasthi"]["non-veg"]["guest"] * detail.count);
+              costPerMeal.add(0 * detail.count);
+            }
+          }
+        }
+        if(detail.isLunch){
+          if(!detail.if_veg){
+            if(!detail.if_guest){
+              cost =  cost + (costMap[0]["sasthi"]["lunch"]["veg"]["resi"] * detail.count);
+              costPerMeal.add(costMap[0]["sasthi"]["lunch"]["veg"]["resi"] * detail.count);
+            }else{
+              cost =  cost + (costMap[0]["sasthi"]["lunch"]["veg"]["guest"] * detail.count);
+              costPerMeal.add(costMap[0]["sasthi"]["lunch"]["veg"]["guest"] * detail.count);
+            }
+          }else{
+            if(!detail.if_guest){
+              cost =  cost + (costMap[0]["sasthi"]["lunch"]["non-veg"]["resi"] * detail.count);
+              costPerMeal.add(costMap[0]["sasthi"]["lunch"]["non-veg"]["resi"] * detail.count);
+            }else{
+              cost =  cost + (costMap[0]["sasthi"]["lunch"]["non-veg"]["guest"] * detail.count);
+              costPerMeal.add(costMap[0]["sasthi"]["lunch"]["non-veg"]["guest"] * detail.count);
+            }
+          }
+        }
+        if(detail.isDinner){
+          if(!detail.if_veg){
+            if(!detail.if_guest){
+              cost =  cost + (costMap[0]["sasthi"]["dinner"]["veg"]["resi"] * detail.count);
+              costPerMeal.add(costMap[0]["sasthi"]["dinner"]["veg"]["resi"] * detail.count);
+            }else{
+              cost =  cost + (costMap[0]["sasthi"]["dinner"]["veg"]["guest"] * detail.count);
+              costPerMeal.add(costMap[0]["sasthi"]["dinner"]["veg"]["guest"] * detail.count);
+            }
+          }else{
+            if(!detail.if_guest){
+              cost =  cost + (costMap[0]["sasthi"]["dinner"]["non-veg"]["resi"] * detail.count);
+              costPerMeal.add(costMap[0]["sasthi"]["dinner"]["non-veg"]["resi"] * detail.count);
+            }else{
+              cost =  cost + (costMap[0]["sasthi"]["dinner"]["non-veg"]["guest"] * detail.count);
+              costPerMeal.add(costMap[0]["sasthi"]["dinner"]["non-veg"]["guest"] * detail.count);
+            }
+          }
+        }
+      }
+
+      if(detail.day == "Saptami - 23 Oct"){
+        if(detail.isBreakfast){
+          if(!detail.if_veg){
+            if(!detail.if_guest){
+              cost =  cost + 0 * detail.count; //(costMap[0]["sasthi"]["veg"]["resi"] * detail.count);
+              costPerMeal.add(0 * detail.count);
+            }else{
+              cost =  cost + 0 * detail.count;//(costMap[0]["sasthi"]["veg"]["guest"] * detail.count);
+              costPerMeal.add(0 * detail.count);
+            }
+          }else{
+            if(!detail.if_guest){
+              cost =  cost + 0 * detail.count;//(costMap[0]["sasthi"]["non-veg"]["resi"] * detail.count);
+              costPerMeal.add(0 * detail.count);
+            }else{
+              cost =  cost + 0 * detail.count;//(costMap[0]["sasthi"]["non-veg"]["guest"] * detail.count);
+              costPerMeal.add(0 * detail.count);
+            }
+          }
+        }
+        if(detail.isLunch){
+          if(!detail.if_veg){
+            if(!detail.if_guest){
+              cost =  cost + (costMap[1]["saptami"]["lunch"]["veg"]["resi"] * detail.count);
+              costPerMeal.add(costMap[1]["saptami"]["lunch"]["veg"]["resi"] * detail.count);
+            }else{
+              cost =  cost + (costMap[1]["saptami"]["lunch"]["veg"]["guest"] * detail.count);
+              costPerMeal.add(costMap[1]["sasthi"]["lunch"]["veg"]["guest"] * detail.count);
+            }
+          }else{
+            if(!detail.if_guest){
+              cost =  cost + (costMap[1]["saptami"]["lunch"]["non-veg"]["resi"] * detail.count);
+              costPerMeal.add(costMap[1]["saptami"]["lunch"]["non-veg"]["resi"] * detail.count);
+            }else{
+              cost =  cost + (costMap[1]["saptami"]["lunch"]["non-veg"]["guest"] * detail.count);
+              costPerMeal.add(costMap[1]["saptami"]["lunch"]["non-veg"]["guest"] * detail.count);
+            }
+          }
+        }
+        if(detail.isDinner){
+          if(!detail.if_veg){
+            if(!detail.if_guest){
+              cost =  cost + (costMap[1]["saptami"]["dinner"]["veg"]["resi"] * detail.count);
+              costPerMeal.add(costMap[1]["saptami"]["dinner"]["veg"]["resi"] * detail.count);
+            }else{
+              cost =  cost + (costMap[1]["saptami"]["dinner"]["veg"]["guest"] * detail.count);
+              costPerMeal.add(costMap[1]["saptami"]["dinner"]["veg"]["guest"] * detail.count);
+            }
+          }else{
+            if(!detail.if_guest){
+              cost =  cost + (costMap[1]["saptami"]["dinner"]["non-veg"]["resi"] * detail.count);
+              costPerMeal.add(costMap[1]["sasthi"]["dinner"]["non-veg"]["resi"] * detail.count);
+            }else{
+              cost =  cost + (costMap[1]["saptami"]["dinner"]["non-veg"]["guest"] * detail.count);
+              costPerMeal.add(costMap[1]["saptami"]["dinner"]["non-veg"]["guest"] * detail.count);
+            }
+          }
+        }
+      }
+      /*
       if (!widget.mealsList.getMealCard()[i].if_veg) {
         cost = cost +
             ((widget.mealsList.getMealCard()[i].if_guest ? 200 : 100) *
@@ -49,7 +173,10 @@ class _CheckOutState extends State<CheckOut> {
         costPerMeal.add(
             (widget.mealsList.getMealCard()[i].if_guest ? 300 : 200) *
                 widget.mealsList.getMealCard()[i].count);
-      }
+       }
+       */
+
+
     }
     setState(() {
       _totalMeals = _tcoupons;
@@ -70,7 +197,7 @@ class _CheckOutState extends State<CheckOut> {
 
   void openCheckout(UserProfile profile) async {
     var options = {
-      "key": "API_KEY_HERE",
+      "key": "rzp_test_LUz3nvkwacrQ9K",
       "amount": _totalCost * 100,
       "name": "Payment for the meals",
       "description": "Test payment",
